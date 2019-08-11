@@ -1,0 +1,335 @@
+version: "2.2"
+
+services:
+   codo-admin-mg_1:
+      container_name: mg
+      restart: always
+      image: 'registry.cn-hangzhou.aliyuncs.com/xxzhang/codo-base:v0.0.3'
+      volumes:
+        - ./apps/codo-admin:/home/opendevops/apps/codo-admin
+        - ./apps/local_settings.py:/home/opendevops/apps/codo-admin/local_settings.py
+      expose:
+        - 8010
+      env_file:
+        - .env
+      healthcheck:
+        test: ["CMD", "curl", "-f", "http://localhost:8010/are_you_ok/"]
+        interval: 10s
+        timeout: 5s
+        retries: 3
+      command: python3 /home/opendevops/apps/codo-admin/startup.py --service=mg --port=8010
+      networks:
+        customize_net:
+          ipv4_address: 192.168.235.100
+
+   codo-admin-sub_log:
+     container_name: codo-admin-sub
+     restart: always
+     volumes:
+       - ./apps/codo-admin:/home/opendevops/apps/codo-admin
+       - ./apps/local_settings.py:/home/opendevops/apps/codo-admin/local_settings.py
+     image: 'registry.cn-hangzhou.aliyuncs.com/xxzhang/codo-base:v0.0.3'
+     env_file:
+       - .env
+     command: python3 /home/opendevops/apps/codo-admin/startup.py --service=sub_log
+     networks:
+       customize_net:
+         ipv4_address: 192.168.235.101
+
+   codo-cmdb_1:
+     container_name: codo-cmdb-1
+     restart: always
+     image: 'registry.cn-hangzhou.aliyuncs.com/xxzhang/codo-base:v0.0.3'
+     volumes:
+       - ./apps/codo-cmdb:/home/opendevops/apps/codo-cmdb
+       - ./apps/local_settings.py:/home/opendevops/apps/codo-cmdb/local_settings.py
+     env_file:
+       - .env
+     expose:
+       - 8050
+     healthcheck:
+       test: ["CMD", "curl", "-f", "http://localhost:8050/are_you_ok/"]
+       interval: 10s
+       timeout: 5s
+       retries: 3
+     command: python3 /home/opendevops/apps/codo-cmdb/startup.py --service=cmdb --port=8050
+     networks:
+       customize_net:
+         ipv4_address: 192.168.235.102
+
+   codo-cron_1:
+     container_name: codo-cron
+     restart: always
+     image: 'registry.cn-hangzhou.aliyuncs.com/xxzhang/codo-base:v0.0.3'
+     env_file:
+       - .env
+     expose:
+       - 9900
+     volumes:
+       - ./apps/codo-cron:/home/opendevops/apps/codo-cron
+       - ./apps/local_settings.py:/home/opendevops/apps/codo-cron/local_settings.py
+     command: python3 /home/opendevops/apps/codo-cron/startup.py --service=cron --port=9900
+     healthcheck:
+       test: ["CMD", "curl", "-f", "http://localhost:9900/are_you_ok/"]
+       interval: 10s
+       timeout: 5s
+       retries: 3
+     networks:
+       customize_net:
+         ipv4_address: 192.168.235.103
+
+   codo-dns:
+     container_name: codo-dns
+     restart: always
+     image: 'registry.cn-hangzhou.aliyuncs.com/xxzhang/codo-base:v0.0.3'
+     env_file:
+       - .env
+     volumes:
+       - ./apps/codo-dns:/home/opendevops/apps/codo-dns
+       - ./apps/local_settings.py:/home/opendevops/apps/codo-dns/local_settings.py
+     expose:
+       - 8060
+     healthcheck:
+       test: ["CMD", "curl", "-f", "http://localhost:8060/are_you_ok/"]
+       interval: 10s
+       timeout: 5s
+       retries: 3
+     command: python3 /home/opendevops/apps/codo-dns/startup.py --service=dns --port=8060
+     networks:
+       customize_net:
+         ipv4_address: 192.168.235.104
+
+   codo-task_api:
+     container_name: task_api
+     restart: always
+     image: 'registry.cn-hangzhou.aliyuncs.com/xxzhang/codo-base:v0.0.3'
+     env_file:
+       - .env
+     volumes:
+       - ./apps/codo-task:/home/opendevops/apps/codo-task
+       - ./apps/local_settings.py:/home/opendevops/apps/codo-task/local_settings.py
+     expose:
+       - 8020
+     healthcheck:
+       test: ["CMD", "curl", "-f", "http://localhost:8020/are_you_ok/"]
+       interval: 10s
+       timeout: 5s
+       retries: 3
+     command: python3 /home/opendevops/apps/codo-task/startup.py --service=task_api --port=8020
+     networks:
+       customize_net:
+         ipv4_address: 192.168.235.105
+
+   codo-task-exec_task:
+     container_name: exec_task
+     restart: always
+     image: 'registry.cn-hangzhou.aliyuncs.com/xxzhang/codo-base:v0.0.3'
+     env_file:
+       - .env
+     volumes:
+       - ./apps/codo-task:/home/opendevops/apps/codo-task
+       - ./apps/local_settings.py:/home/opendevops/apps/codo-task/local_settings.py
+     command: python3 /home/opendevops/apps/codo-task/startup.py --service=exec_task
+     networks:
+       customize_net:
+         ipv4_address: 192.168.235.106
+
+   codo-task-log_record:
+     container_name: log_record
+     restart: always
+     image: 'registry.cn-hangzhou.aliyuncs.com/xxzhang/codo-base:v0.0.3'
+     env_file:
+       - .env
+     volumes:
+       - ./apps/codo-task:/home/opendevops/apps/codo-task
+       - ./apps/local_settings.py:/home/opendevops/apps/codo-task/local_settings.py
+     command: python3 /home/opendevops/apps/codo-task/startup.py --service=log_record
+     networks:
+       customize_net:
+         ipv4_address: 192.168.235.107
+
+   codo-task_other:
+     container_name: other_task
+     restart: always
+     image: 'registry.cn-hangzhou.aliyuncs.com/xxzhang/codo-base:v0.0.3'
+     env_file:
+       - .env
+     expose:
+       - 8021
+     healthcheck:
+       test: ["CMD", "curl", "-f", "http://localhost:8021/are_you_ok/"]
+       interval: 10s
+       timeout: 5s
+       retries: 3
+     volumes:
+       - ./apps/codo-task:/home/opendevops/apps/codo-task
+       - ./apps/local_settings.py:/home/opendevops/apps/codo-task/local_settings.py
+     command: python3 /home/opendevops/apps/codo-task/startup.py --service=other --port=8021
+     networks:
+       customize_net:
+         ipv4_address: 192.168.235.108
+
+   codo-task-cron_app:
+     container_name: task_cron_app
+     restart: always
+     image: 'registry.cn-hangzhou.aliyuncs.com/xxzhang/codo-base:v0.0.3'
+     env_file:
+       - .env
+     volumes:
+       - ./apps/codo-task:/home/opendevops/apps/codo-task
+       - ./apps/local_settings.py:/home/opendevops/apps/codo-task/local_settings.py
+     command: python3 /home/opendevops/apps/codo-task/startup.py  --service=cron_app
+     networks:
+       customize_net:
+         ipv4_address: 192.168.235.109
+
+   codo-tools-1:
+     container_name: tools
+     restart: always
+     image: 'registry.cn-hangzhou.aliyuncs.com/xxzhang/codo-base:v0.0.3'
+     env_file:
+       - .env
+     volumes:
+       - ./apps/codo-tools:/home/opendevops/apps/codo-tools
+       - ./apps/local_settings.py:/home/opendevops/apps/codo-task/local_settings.py
+     expose:
+       - 8040
+     healthcheck:
+       test: ["CMD", "curl", "-f", "http://localhost:8040/are_you_ok/"]
+       interval: 10s
+       timeout: 5s
+       retries: 3
+     command: python3 /home/opendevops/apps/codo-tools/startup.py  --service=tools --port=8040
+     networks:
+       customize_net:
+         ipv4_address: 192.168.235.110
+
+   codo-tools-cron_jobs:
+     container_name: tools_cron_jobs
+     restart: always
+     image: 'registry.cn-hangzhou.aliyuncs.com/xxzhang/codo-base:v0.0.3'
+     env_file:
+       - .env
+     volumes:
+       - ./apps/codo-tools:/home/opendevops/apps/codo-tools
+       - ./apps/local_settings.py:/home/opendevops/apps/codo-tools/local_settings.py
+     command: python3 /home/opendevops/apps/codo-tools/startup.py  --service=cron_jobs
+     networks:
+       customize_net:
+         ipv4_address: 192.168.235.111
+
+   kerrigan:
+     container_name: kerrigan
+     restart: always
+     image: 'registry.cn-hangzhou.aliyuncs.com/xxzhang/codo-base:v0.0.3'
+     env_file:
+       - .env
+     expose:
+       - 8030
+     healthcheck:
+       test: ["CMD", "curl", "-f", "http://localhost:8030/are_you_ok/"]
+       interval: 10s
+       timeout: 5s
+       retries: 3
+     volumes:
+       - ./apps/kerrigan:/home/opendevops/apps/kerrigan
+       - ./apps/local_settings.py:/home/opendevops/apps/kerrigan/local_settings.py
+     command: python3 /home/opendevops/apps/kerrigan/startup.py --service=kerrigan --port=8030
+     networks:
+       customize_net:
+         ipv4_address: 192.168.235.112
+
+   mysql:
+     container_name: mysql-server
+     image: 'registry.cn-hangzhou.aliyuncs.com/xxzhang/mysql:5.7'
+     volumes:
+       - /srv/docker/mysqldata89:/var/lib/mysql
+       - /etc/localtime:/etc/localtime
+     restart: always
+     ports:
+       - "3306:3306"
+     env_file:
+       - .env
+     environment:
+       - character-set-server=utf8
+       - collation-server=utf8_general_ci
+     networks:
+       customize_net:
+         ipv4_address: 192.168.235.113
+
+   redis:
+     container_name: redis-server
+     image: 'registry.cn-hangzhou.aliyuncs.com/xxzhang/redis:4.0.9'
+     restart: always
+     volumes:
+       - /srv/docker/redis:/var/lib/redis
+       - /etc/localtime:/etc/localtime
+     env_file:
+       - .env
+     ports:
+       - "6379:6379"
+     networks:
+       customize_net:
+         ipv4_address: 192.168.235.114
+
+   rabbitmq:
+     container_name: mq-server
+     image: 'rabbitmq:3-management'
+     restart: always
+     ports:
+       - "5672:5672"
+       - "15672:15672"
+     volumes:
+       - /srv/docker/rabbitmq/data:/var/lib/rabbitmq
+       - /etc/localtime:/etc/localtime
+     env_file:
+       - .env
+     networks:
+       customize_net:
+         ipv4_address: 192.168.235.115
+
+   codo-ui:
+     container_name: codo-ui
+     image: 'registry.cn-hangzhou.aliyuncs.com/xxzhang/codo-ui:v0.0.3'
+     restart: always
+     ports:
+       - 8080:8080
+     command: /usr/local/bin/npm run dev
+     volumes:
+       - ./codo-ui/vue.config.js:/var/www/codo-ui/vue.config.js
+     networks:
+       customize_net:
+         ipv4_address: 192.168.235.116
+     ulimits:
+       nproc: 65535
+       nofile:
+         soft: 20000
+         hard: 40000
+
+   tengine:
+     container_name: ngx
+     image: 'registry.cn-hangzhou.aliyuncs.com/xxzhang/tengine'
+     restart: always
+     ports:
+       - "10080:10080"
+       - "7780:80"
+     healthcheck:
+       test: ["CMD", "curl", "-f", "http://localhost:8080"]
+       interval: 10s
+       timeout: 5s
+       retries: 3
+     volumes:
+       - /etc/localtime:/etc/localtime
+       - ./tengine/tengine.conf:/etc/nginx/nginx.conf
+       - ./tengine/vhosts:/etc/nginx/vhosts
+     networks:
+       customize_net:
+         ipv4_address: 192.168.235.117
+
+networks:
+  customize_net:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 192.168.235.0/24

@@ -1,0 +1,38 @@
+FROM python:3.6
+
+MAINTAINER actanble <actanble@gmail.com>
+
+# 设置编码
+ENV LANG en_US.UTF-8
+# 同步时间
+ENV TZ=Asia/Shanghai
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
+RUN mkdir -p /usr/local/src/codo
+
+RUN git clone https://github.com/xx-codo/codo-admin && \
+    git clone https://github.com/xx-codo/codo-cmdb  && \
+    git clone https://github.com/xx-codo/codo-tools && \
+    git clone https://github.com/xx-codo/codo-task  && \
+    git clone https://github.com/xx-codo/kerrigan   && \
+    git clone https://github.com/xx-codo/codo-cron  && \
+    git clone https://github.com/xx-codo/codo-dns
+
+WORKDIR /usr/local/src/codo
+
+RUN pip3 install --upgrade pip --index-url https://pypi.tuna.tsinghua.edu.cn/simple
+RUN pip3 install -U git+https://gitee.com/actanble/ops-sdk.git --index-url https://pypi.tuna.tsinghua.edu.cn/simple
+RUN for x in $(find . -name 'requirements.txt' | awk '{print $1}'); do pip3 install -r $x \
+--index-url https://pypi.tuna.tsinghua.edu.cn/simple; done
+
+ENV TINI_VERSION v0.18.0
+ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /tini
+RUN chmod +x /tini
+ENTRYPOINT ["/tini", "-vvv", "-g", "-w", "--"]
+
+#CMD ["python", "--version"]
+#CMD ["python", "-h"]
+
+COPY config.yml ${APPS_DIR}
+COPY local_settings.py ${APPS_DIR}
+RUN for x in $(find . -type d -maxdepth 1); do cp ${APPS_DIR}/config.yml $x; cp ${APPS_DIR}/local_settings.py $x; done
