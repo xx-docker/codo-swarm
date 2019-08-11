@@ -39,6 +39,8 @@ git clone git@code.aliyun.com:xx-zhang/codo-swarm.git && mv codo-swarm opendevop
 - 2, 修改自己的个性化配置
 > 注意观察 7个 python-apps 我们可以发现都 import local_settings.py 所以直接将 local_settings映射进去就行了。
 > 在这里为了优化和简化配置，用户只需要修改 apps/config.yml 即可。
+- [config.yml](./apps/config.yml)
+- 修改这个文件后，local_settings.py 会加载进去。
 
 - 3, 启动 docker-compose 
 ```bash 

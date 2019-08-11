@@ -8,6 +8,7 @@ services:
       volumes:
         - ./apps/codo-admin:/home/opendevops/apps/codo-admin
         - ./apps/local_settings.py:/home/opendevops/apps/codo-admin/local_settings.py
+        - ./apps/config.yml:/home/opendevops/apps/config.yml
       expose:
         - 8010
       env_file:
@@ -28,6 +29,7 @@ services:
      volumes:
        - ./apps/codo-admin:/home/opendevops/apps/codo-admin
        - ./apps/local_settings.py:/home/opendevops/apps/codo-admin/local_settings.py
+       - ./apps/config.yml:/home/opendevops/apps/config.yml
      image: 'registry.cn-hangzhou.aliyuncs.com/xxzhang/codo-base:v0.0.3'
      env_file:
        - .env
@@ -43,6 +45,7 @@ services:
      volumes:
        - ./apps/codo-cmdb:/home/opendevops/apps/codo-cmdb
        - ./apps/local_settings.py:/home/opendevops/apps/codo-cmdb/local_settings.py
+       - ./apps/config.yml:/home/opendevops/apps/config.yml
      env_file:
        - .env
      expose:
@@ -68,6 +71,7 @@ services:
      volumes:
        - ./apps/codo-cron:/home/opendevops/apps/codo-cron
        - ./apps/local_settings.py:/home/opendevops/apps/codo-cron/local_settings.py
+       - ./apps/config.yml:/home/opendevops/apps/config.yml
      command: python3 /home/opendevops/apps/codo-cron/startup.py --service=cron --port=9900
      healthcheck:
        test: ["CMD", "curl", "-f", "http://localhost:9900/are_you_ok/"]
@@ -87,6 +91,7 @@ services:
      volumes:
        - ./apps/codo-dns:/home/opendevops/apps/codo-dns
        - ./apps/local_settings.py:/home/opendevops/apps/codo-dns/local_settings.py
+       - ./apps/config.yml:/home/opendevops/apps/config.yml
      expose:
        - 8060
      healthcheck:
@@ -108,6 +113,7 @@ services:
      volumes:
        - ./apps/codo-task:/home/opendevops/apps/codo-task
        - ./apps/local_settings.py:/home/opendevops/apps/codo-task/local_settings.py
+       - ./apps/config.yml:/home/opendevops/apps/config.yml
      expose:
        - 8020
      healthcheck:
@@ -129,6 +135,7 @@ services:
      volumes:
        - ./apps/codo-task:/home/opendevops/apps/codo-task
        - ./apps/local_settings.py:/home/opendevops/apps/codo-task/local_settings.py
+       - ./apps/config.yml:/home/opendevops/apps/config.yml
      command: python3 /home/opendevops/apps/codo-task/startup.py --service=exec_task
      networks:
        customize_net:
@@ -143,6 +150,7 @@ services:
      volumes:
        - ./apps/codo-task:/home/opendevops/apps/codo-task
        - ./apps/local_settings.py:/home/opendevops/apps/codo-task/local_settings.py
+       - ./apps/config.yml:/home/opendevops/apps/config.yml
      command: python3 /home/opendevops/apps/codo-task/startup.py --service=log_record
      networks:
        customize_net:
@@ -164,6 +172,7 @@ services:
      volumes:
        - ./apps/codo-task:/home/opendevops/apps/codo-task
        - ./apps/local_settings.py:/home/opendevops/apps/codo-task/local_settings.py
+       - ./apps/config.yml:/home/opendevops/apps/config.yml
      command: python3 /home/opendevops/apps/codo-task/startup.py --service=other --port=8021
      networks:
        customize_net:
@@ -178,6 +187,7 @@ services:
      volumes:
        - ./apps/codo-task:/home/opendevops/apps/codo-task
        - ./apps/local_settings.py:/home/opendevops/apps/codo-task/local_settings.py
+       - ./apps/config.yml:/home/opendevops/apps/config.yml
      command: python3 /home/opendevops/apps/codo-task/startup.py  --service=cron_app
      networks:
        customize_net:
@@ -192,6 +202,7 @@ services:
      volumes:
        - ./apps/codo-tools:/home/opendevops/apps/codo-tools
        - ./apps/local_settings.py:/home/opendevops/apps/codo-task/local_settings.py
+       - ./apps/config.yml:/home/opendevops/apps/config.yml
      expose:
        - 8040
      healthcheck:
@@ -213,6 +224,7 @@ services:
      volumes:
        - ./apps/codo-tools:/home/opendevops/apps/codo-tools
        - ./apps/local_settings.py:/home/opendevops/apps/codo-tools/local_settings.py
+       - ./apps/config.yml:/home/opendevops/apps/config.yml
      command: python3 /home/opendevops/apps/codo-tools/startup.py  --service=cron_jobs
      networks:
        customize_net:
@@ -234,6 +246,7 @@ services:
      volumes:
        - ./apps/kerrigan:/home/opendevops/apps/kerrigan
        - ./apps/local_settings.py:/home/opendevops/apps/kerrigan/local_settings.py
+       - ./apps/config.yml:/home/opendevops/apps/config.yml
      command: python3 /home/opendevops/apps/kerrigan/startup.py --service=kerrigan --port=8030
      networks:
        customize_net:
