@@ -1,5 +1,30 @@
 # CODO 单机部署解决方案
 
+## 仓库目录结构简单说明
+```
+[root@VastSpecific-VM codo-swarm]# tree -d -L 2
+.
+├── apps             python 的后台工具
+│   ├── codo-admin   opendevops/codo-admin
+│   ├── codo-cmdb    opendevops/codo-cmdb
+│   ├── codo-cron    opendevops/codo-cron
+│   ├── codo-dns     opendevops/codo-dns
+│   ├── codo-task    opendevops/codo-task
+│   ├── codo-tools   opendevops/codo-tools
+│   └── kerrigan     opendevops/kerrigan
+├── codo-ui       Codo-UI 对应的是 github 上的 opendevops/codo
+│   ├── public
+│   ├── src
+│   └── tests
+├── scripts  可以无视
+│   └── v2
+├── sql      数据库初始的内容
+└── tengine  进行单机部署的Nginx配置
+    └── vhosts
+
+17 directories
+```
+
 ## 快速开始
 - 1, 拷贝仓库
 ```bash 
@@ -49,14 +74,6 @@ devServer: {
 
 - 5, 其他说明
 > 因为数据库 MYSQL_REDIS_MQ 都是开放的端口，如果不开放，可以设置对应的HOST; expose
-
-
-## 解析域名到 etc/hosts 
-- echo codo.actanble.org   192.168.2.228 >> /etc/hosts 
-
-## 更换源
-- sed -i 's/"actanble/codo-admin-base"/"registry.cn-hangzhou.aliyuncs.com/xxzhang/codo-base:0.0.3"/g' \
- docker-compose.yml  
  
 ## 使用的镜像说明
 - rabbitmq:3-management 这个被 我的代替了
@@ -65,5 +82,14 @@ devServer: {
 - redis/mysql 都是出自 library; 为了下载迅速全部通过xx-docker的github源转移重新编译了
 - actanbe/codo-ui 对应的 codo-ui 下的编译环境。
 
+## 其他修改; 可能用得上
+```
+## 解析域名到 etc/hosts 
+- echo codo.actanble.org   192.168.2.228 >> /etc/hosts 
+
+## 更换源
+- sed -i 's/"actanble/codo-admin-base"/"registry.cn-hangzhou.aliyuncs.com/xxzhang/codo-base:0.0.3"/g' \
+ docker-compose.yml  
+```
 ## 参考信息
 - [Docker-compose参考](https://github.com/zabbix/zabbix-docker/blob/4.2/docker-compose_v3_alpine_mysql_latest.yaml)
