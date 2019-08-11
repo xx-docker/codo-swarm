@@ -313,6 +313,11 @@ services:
      networks:
        customize_net:
          ipv4_address: 192.168.235.116
+     healthcheck:
+       test: ["CMD", "curl", "-f", "http://localhost:8080"]
+       interval: 10s
+       timeout: 5s
+       retries: 3
      ulimits:
        nproc: 65535
        nofile:
@@ -327,7 +332,7 @@ services:
        - "10080:10080"
        - "7780:80"
      healthcheck:
-       test: ["CMD", "curl", "-f", "http://localhost:8080"]
+       test: ["CMD", "curl", "-f", "http://localhost:80"]
        interval: 10s
        timeout: 5s
        retries: 3
