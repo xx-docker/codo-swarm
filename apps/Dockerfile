@@ -30,4 +30,6 @@ RUN for x in $(find . -name 'requirements.txt' | awk '{print $1}'); do pip3 inst
 
 COPY config.yml ${APPS_DIR}
 COPY local_settings.py ${APPS_DIR}
-RUN for x in $(find . -type d -maxdepth 1); do cp ${APPS_DIR}/config.yml $x; cp ${APPS_DIR}/local_settings.py $x; done
+
+## Update docker-compose and mount the files of config and local_settings
+#RUN for x in $(find . -type d -maxdepth 1); do cp ${APPS_DIR}/config.yml $x; cp ${APPS_DIR}/local_settings.py $x; done

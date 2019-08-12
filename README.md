@@ -58,10 +58,9 @@ docker exec -it mysql-server bash
 # >>>>>>>>>>>>>>>容器环境>>>>>>>>>>>>>>>>>>>>
 cd /root/
 ## 创建数据库
-for x in $(find . -name *.sql); do mysql -uroot -p${MYSQL_ROOT_PASSWORD} -e "create database "$(echo $x | awk -F '-' '{print $1}' | awk -F '/' '{print $3}')" default character set utf8mb4 collate utf8mb4_unicode_ci;" ; done
-
+- create database codo default character set utf8mb4 collate utf8mb4_unicode_ci;"
 ## 初始化数据库
-for x in $(find . -name *.sql); do mysql -uroot -p${MYSQL_ROOT_PASSWORD} $(echo $x | awk -F '-' '{print $1}' | awk -F '/' '{print $3}') < $x; done
+for x in $(find . -name *.sql); do mysql -uroot -p${MYSQL_ROOT_PASSWORD} codo < $x; done
 # <<<<<<<<<<<<<<< 容器环境 <<<<<<<<<<<<<<<<<<<
 ```
 - 5, 当前codo-ui为 dev run 

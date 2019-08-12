@@ -54,9 +54,6 @@ CODO_TASK_DB_INFO = dict(
     db=CODO_TASK_DB_DBNAME
 )
 
-
-
-
 try:
     from local_settings import *
 except:
