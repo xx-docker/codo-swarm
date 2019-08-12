@@ -11,8 +11,6 @@ services:
         - ./apps/config.yml:/home/opendevops/apps/config.yml
       expose:
         - 8010
-      env_file:
-        - .env
       healthcheck:
         test: ["CMD", "curl", "-f", "http://localhost:8010/are_you_ok/"]
         interval: 10s
@@ -31,8 +29,6 @@ services:
        - ./apps/local_settings.py:/home/opendevops/apps/codo-admin/local_settings.py
        - ./apps/config.yml:/home/opendevops/apps/config.yml
      image: 'registry.cn-hangzhou.aliyuncs.com/xxzhang/codo-base:v0.0.3'
-     env_file:
-       - .env
      command: python3 /home/opendevops/apps/codo-admin/startup.py --service=sub_log
      networks:
        customize_net:
@@ -46,8 +42,6 @@ services:
        - ./apps/codo-cmdb:/home/opendevops/apps/codo-cmdb
        - ./apps/local_settings.py:/home/opendevops/apps/codo-cmdb/local_settings.py
        - ./apps/config.yml:/home/opendevops/apps/config.yml
-     env_file:
-       - .env
      expose:
        - 8050
      healthcheck:
@@ -64,8 +58,6 @@ services:
      container_name: codo-cron
      restart: always
      image: 'registry.cn-hangzhou.aliyuncs.com/xxzhang/codo-base:v0.0.3'
-     env_file:
-       - .env
      expose:
        - 9900
      volumes:
@@ -86,8 +78,6 @@ services:
      container_name: codo-dns
      restart: always
      image: 'registry.cn-hangzhou.aliyuncs.com/xxzhang/codo-base:v0.0.3'
-     env_file:
-       - .env
      volumes:
        - ./apps/codo-dns:/home/opendevops/apps/codo-dns
        - ./apps/local_settings.py:/home/opendevops/apps/codo-dns/local_settings.py
@@ -108,8 +98,6 @@ services:
      container_name: task_api
      restart: always
      image: 'registry.cn-hangzhou.aliyuncs.com/xxzhang/codo-base:v0.0.3'
-     env_file:
-       - .env
      volumes:
        - ./apps/codo-task:/home/opendevops/apps/codo-task
        - ./apps/local_settings.py:/home/opendevops/apps/codo-task/local_settings.py
@@ -130,8 +118,6 @@ services:
      container_name: exec_task
      restart: always
      image: 'registry.cn-hangzhou.aliyuncs.com/xxzhang/codo-base:v0.0.3'
-     env_file:
-       - .env
      volumes:
        - ./apps/codo-task:/home/opendevops/apps/codo-task
        - ./apps/local_settings.py:/home/opendevops/apps/codo-task/local_settings.py
@@ -145,8 +131,6 @@ services:
      container_name: log_record
      restart: always
      image: 'registry.cn-hangzhou.aliyuncs.com/xxzhang/codo-base:v0.0.3'
-     env_file:
-       - .env
      volumes:
        - ./apps/codo-task:/home/opendevops/apps/codo-task
        - ./apps/local_settings.py:/home/opendevops/apps/codo-task/local_settings.py
@@ -160,8 +144,6 @@ services:
      container_name: other_task
      restart: always
      image: 'registry.cn-hangzhou.aliyuncs.com/xxzhang/codo-base:v0.0.3'
-     env_file:
-       - .env
      expose:
        - 8021
      healthcheck:
@@ -182,8 +164,6 @@ services:
      container_name: task_cron_app
      restart: always
      image: 'registry.cn-hangzhou.aliyuncs.com/xxzhang/codo-base:v0.0.3'
-     env_file:
-       - .env
      volumes:
        - ./apps/codo-task:/home/opendevops/apps/codo-task
        - ./apps/local_settings.py:/home/opendevops/apps/codo-task/local_settings.py
@@ -197,8 +177,6 @@ services:
      container_name: tools
      restart: always
      image: 'registry.cn-hangzhou.aliyuncs.com/xxzhang/codo-base:v0.0.3'
-     env_file:
-       - .env
      volumes:
        - ./apps/codo-tools:/home/opendevops/apps/codo-tools
        - ./apps/local_settings.py:/home/opendevops/apps/codo-task/local_settings.py
@@ -219,8 +197,6 @@ services:
      container_name: tools_cron_jobs
      restart: always
      image: 'registry.cn-hangzhou.aliyuncs.com/xxzhang/codo-base:v0.0.3'
-     env_file:
-       - .env
      volumes:
        - ./apps/codo-tools:/home/opendevops/apps/codo-tools
        - ./apps/local_settings.py:/home/opendevops/apps/codo-tools/local_settings.py
@@ -234,8 +210,6 @@ services:
      container_name: kerrigan
      restart: always
      image: 'registry.cn-hangzhou.aliyuncs.com/xxzhang/codo-base:v0.0.3'
-     env_file:
-       - .env
      expose:
        - 8030
      healthcheck:
